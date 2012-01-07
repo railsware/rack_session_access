@@ -97,48 +97,33 @@ feature "manage rack session", %q(
   So I can write faster tests
 ) do
 
-  context "with rack application and :rack_test driver", :driver => :rack_test do
-    background do
-      Capybara.app = TestRackApp
-      Capybara.current_driver.should == :rack_test
-    end
-    include_examples "common scenarios"
-    include_examples "rack scenarios"
-  end
 
-  context "with rack application and :selenium driver", :driver => :selenium do
-    background do
-      Capybara.app = TestRackApp
-      Capybara.current_driver.should == :selenium
+  [:rack_test, :selenium].each do |driver_name|
+    context "with rack application and #{driver_name.inspect} driver", :driver => driver_name do
+      background do
+        Capybara.current_driver.should == driver_name
+        Capybara.app = TestRackApp
+      end
+      include_examples "common scenarios"
+      include_examples "rack scenarios"
     end
-    include_examples "common scenarios"
-    include_examples "rack scenarios"
-  end
 
-  context "with sinatra application and :rack_test driver", :driver => :rack_test do
-    background do
-      Capybara.app = TestSinatraApp
-      Capybara.current_driver.should == :rack_test
+    context "with sinatra application and #{driver_name.inspect} driver", :driver => driver_name do
+      background do
+        Capybara.current_driver.should == driver_name
+        Capybara.app = TestSinatraApp
+      end
+      include_examples "common scenarios"
+      include_examples "sinatra scenarios"
     end
-    include_examples "common scenarios"
-    include_examples "sinatra scenarios"
-  end
 
-  context "with sinatra application and :selenium driver", :driver => :selenium do
-    background do
-      Capybara.app = TestSinatraApp
-      Capybara.current_driver.should == :selenium
+    context "with rails application and #{driver_name.inspect} driver", :driver => driver_name do
+      background do
+        Capybara.current_driver.should == driver_name
+        Capybara.app = TestRailsApp::Application
+      end
+      include_examples "common scenarios"
+      include_examples "rails scenarios"
     end
-    include_examples "common scenarios"
-    include_examples "sinatra scenarios"
-  end
-
-  context "with rails application and :rack_test driver", :driver => :rack_test do
-    background do
-      Capybara.app = TestRailsApp::Application
-      Capybara.current_driver.should == :rack_test
-    end
-    include_examples "common scenarios"
-    include_examples "rails scenarios"
   end
 end

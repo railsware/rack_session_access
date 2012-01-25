@@ -28,4 +28,11 @@ describe RackSessionAccess do
     result = subject.decode(data)
     result.should == source
   end
+
+  it "should encode and decode values with line brake characters" do
+    source = { 'line' => "one\ntwo" }
+    data = subject.encode(source)
+    result = subject.decode(data)
+    result.should == source
+  end
 end

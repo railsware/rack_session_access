@@ -10,7 +10,7 @@ module RackSessionAccess
 
     # encode session hash to string
     def encode(hash)
-      Array(Marshal.dump(hash)).pack('m')
+      [Marshal.dump(hash)].pack('m')
     end
 
     # decode string to session hash

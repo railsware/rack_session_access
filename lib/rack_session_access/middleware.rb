@@ -65,7 +65,7 @@ module RackSessionAccess
           :enctype => 'application/x-www-form-urlencoded'
         }) do |xml|
           xml.input(:type => 'hidden', :name =>'_method', :value => 'put')
-          xml.textarea("", :cols => 40, :rows => 10, :name => 'data')
+          xml.textarea(:cols => 40, :rows => 10, :name => 'data') {}
           xml.p do |xml|
             xml.input(:type => 'submit', :value => "Update")
           end

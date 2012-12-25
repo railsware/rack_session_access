@@ -24,23 +24,19 @@ Add to `Gemfile`:
 
     gem 'rack_session_access'
 
-Add to `config/application.rb`
+Add RackSessionAccess middleware to rails middleware stack.
+Add the following in`config/environments/test.rb`:
 
-    module MyRailsApplication
-      class Application < Rails::Application
-        config.middleware.use RackSessionAccess::Middleware if Rails.env.test?
-      end
+    [MyRailsApp]::Application.configure do
+      ...
+      # Access to rack session
+      config.middleware.use RackSessionAccess::Middleware
+      ...
     end
 
-*Note* Ensure you include rack_session_access middleware only for test environment
+*Note* Ensure you include rack_session_access middleware only for *test* environment
 otherwise you will have security issue.
 
-If you use rspec you may prefer to inject middleware only for rspec tests:
-Put into `spec/spec_helper`:
-
-      Rails.application.configure do
-        config.middleware.use RackSessionAccess::Middleware
-      end
 
 ## Using with Sinatra
 
@@ -92,6 +88,13 @@ Example:
       end
     end
 
+## Authlogic integration
+
+    page.set_rack_session("user_credentials" => @user.persistence_token)
+
+## Devise integration
+
+    page.set_rack_session("warden.user.user.key" => User.serialize_into_session(@user).unshift("User"))
 
 ## Notes
 

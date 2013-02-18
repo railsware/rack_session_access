@@ -146,7 +146,7 @@ feature "manage rack session", %q(
     end
 
     context "rails application" do
-      background { Capybara.app = TestRackApp }
+      background { Capybara.app = TestRailsApp::Application }
       include_examples "common scenarios"
       include_examples "rails scenarios"
     end
@@ -168,7 +168,7 @@ feature "manage rack session", %q(
     end
 
     context "rails application" do
-      background { Capybara.app = TestRackApp }
+      background { Capybara.app = TestRailsApp::Application }
       include_examples "common scenarios"
       include_examples "rails scenarios"
     end

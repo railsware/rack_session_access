@@ -1,4 +1,3 @@
-require 'rails'
 require 'action_controller/railtie'
 
 module TestRailsApp
@@ -33,3 +32,5 @@ module TestRailsApp
     end
   end
 end
+
+Rails.logger = Logger.new('/dev/null')

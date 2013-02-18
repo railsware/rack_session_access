@@ -38,8 +38,8 @@ module RackSessionAccess
 
     # List session data
     def show(request)
-      # call inspect because session can be lazy loaded
-      request.env[@key].inspect
+      # force load session because it can be lazy loaded
+      request.env[@key].delete(:rack_session_access_force_load_session)
 
       case File.extname(request.path)
       when ".raw"

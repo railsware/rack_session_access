@@ -41,15 +41,23 @@ module RackSessionAccess
       # call inspect because session can be lazy loaded
       request.env[@key].inspect
 
-      render do |xml|
-        xml.h2 "Rack session data"
-        xml.ul do |xml|
-          request.env[@key].each do |k,v|
-            xml.li("#{k.inspect} : #{v.inspect}")
-          end
+      case File.extname(request.path)
+      when ".raw"
+        render do |xml|
+          xml.h2 "Raw rack session data"
+          xml.pre RackSessionAccess.encode(request.env[@key].to_hash)
         end
-        xml.p do |xml|
-          xml.a("Edit", :href => action_path(:edit))
+      else
+        render do |xml|
+          xml.h2 "Rack session data"
+          xml.ul do |xml|
+            request.env[@key].each do |k,v|
+              xml.li("#{k.inspect} : #{v.inspect}")
+            end
+          end
+          xml.p do |xml|
+            xml.a("Edit", :href => action_path(:edit))
+          end
         end
       end
     end
@@ -93,7 +101,7 @@ module RackSessionAccess
     # Dispatch action from request
     def dispatch_action(request)
       method = request_method(request)
-      path = request.path
+      path = request.path.sub(/\.\w+$/, '')
       route = @routing.detect { |r| r[0] == method && r[1] == path }
       route[2] if route
     end

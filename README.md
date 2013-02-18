@@ -70,7 +70,11 @@ Add to `spec/spec_helper.rb`
 
     require "rack_session_access/capybara"
 
-And use `page.set_rack_session` to set your desired session data!
+Use:
+
+* `page.set_rack_session` to set your desired session data
+* `page.get_rack_session` to obtain your application session data
+* `page.get_rack_session_key` to obtain certain key if your application session data
 
 Example:
 
@@ -85,6 +89,11 @@ Example:
         page.set_rack_session(:user_id => user.id)
         page.visit "/profile"
         page.should have_content("Hi, jack@daniels.com")
+      end
+
+      scenario "visit landing page" do
+        page.visit "/landing?ref=123"
+        page.get_rack_session_key('ref').should == "123"
       end
     end
 

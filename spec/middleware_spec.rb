@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 shared_examples "common scenarios" do
+  let(:data) do
+    {
+      'user_email'   => 'jack@daniels.com',
+      'user_profile' => { :age => 12 },
+      'role_ids'     => [1, 20, 30]
+    }
+  end
+
   scenario "changing session data" do
     page.visit RackSessionAccess.edit_path
     page.should have_content("Update rack session")
@@ -32,15 +40,42 @@ shared_examples "common scenarios" do
   end
 
   scenario "modify session data with set_rack_session helper" do
-    page.set_rack_session({
-      'user_email'   => 'jack@daniels.com',
-      'user_profile' => { :age => 12 },
-      'role_ids'     => [1, 20, 30]
-    })
+    page.set_rack_session(data)
+
     page.visit(RackSessionAccess.path)
     page.should have_content('"user_email" : "jack@daniels.com"')
     page.should have_content('"user_profile" : {:age=>12}')
     page.should have_content('"role_ids" : [1, 20, 30]')
+  end
+
+  scenario "accessing raw session data" do
+    page.set_rack_session(data)
+
+    page.visit(RackSessionAccess.path + '.raw')
+    raw_data = page.find(:xpath, "//body/pre").text
+    raw_data.should be_present
+    actual_data = RackSessionAccess.decode(raw_data)
+    actual_data.should be_kind_of(Hash)
+    data.each do |key, value|
+      actual_data[key].should == value
+    end
+  end
+
+  scenario "accessing raw session data using get_rack_session helper" do
+    page.set_rack_session(data)
+
+    actual_data = page.get_rack_session
+
+    actual_data.should be_kind_of(Hash)
+    data.each do |key, value|
+      actual_data[key].should == value
+    end
+  end
+
+  scenario "accessing raw session data using get_rack_session_key helper" do
+    page.set_rack_session(data)
+
+    page.get_rack_session_key('role_ids').should == [1, 20, 30]
   end
 end
 

@@ -97,33 +97,46 @@ feature "manage rack session", %q(
   So I can write faster tests
 ) do
 
-
-  [:rack_test, :selenium].each do |driver_name|
-    context "with rack application and #{driver_name.inspect} driver", :driver => driver_name do
-      background do
-        Capybara.current_driver.should == driver_name
-        Capybara.app = TestRackApp
-      end
+  context ":rack_test driver", :driver => :rack_test do
+    context "rack application" do
+      background { Capybara.app = TestRackApp }
       include_examples "common scenarios"
       include_examples "rack scenarios"
     end
 
-    context "with sinatra application and #{driver_name.inspect} driver", :driver => driver_name do
-      background do
-        Capybara.current_driver.should == driver_name
-        Capybara.app = TestSinatraApp
-      end
+    context "sinatra application" do
+      background { Capybara.app = TestSinatraApp }
       include_examples "common scenarios"
       include_examples "sinatra scenarios"
     end
 
-    context "with rails application and #{driver_name.inspect} driver", :driver => driver_name do
-      background do
-        Capybara.current_driver.should == driver_name
-        Capybara.app = TestRailsApp::Application
-      end
+    context "rails application" do
+      background { Capybara.app = TestRackApp }
       include_examples "common scenarios"
       include_examples "rails scenarios"
     end
   end
+
+
+
+  context ":selenium driver", :driver => :selenium do
+    context "rack application" do
+      background { Capybara.app = TestRackApp }
+      include_examples "common scenarios"
+      include_examples "rack scenarios"
+    end
+
+    context "sinatra application" do
+      background { Capybara.app = TestSinatraApp }
+      include_examples "common scenarios"
+      include_examples "sinatra scenarios"
+    end
+
+    context "rails application" do
+      background { Capybara.app = TestRackApp }
+      include_examples "common scenarios"
+      include_examples "rails scenarios"
+    end
+  end
+
 end

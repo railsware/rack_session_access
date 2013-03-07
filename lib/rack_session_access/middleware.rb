@@ -51,7 +51,12 @@ module RackSessionAccess
         render do |xml|
           xml.h2 "Rack session data"
           xml.ul do |xml|
-            request.env[@key].each do |k,v|
+            session = request.env[@key]
+            if session.respond_to?(:to_hash)
+              # session is ActionDispatch::Request::Session
+              session = session.to_hash
+            end
+            session.each do |k,v|
               xml.li("#{k.inspect} : #{v.inspect}")
             end
           end

@@ -111,6 +111,18 @@ Thus we use marshalized data it's possible to set any ruby object into applicati
 
 Enjoy!
 
+## Running rack_session_access tests
+
+### Against Rails3, Sinatra, rack applications
+
+    BUNDLE_GEMFILE=Gemfile bundle install
+    BUNDLE_GEMFILE=Gemfile bundle exec rspec -fs -c spec/
+
+### Against Rails4, Sinatra, rack applications
+
+    BUNDLE_GEMFILE=Gemfile.rails4 bundle install
+    BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
+
 
 ## References
 

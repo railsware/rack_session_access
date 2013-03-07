@@ -41,22 +41,20 @@ module RackSessionAccess
       # force load session because it can be lazy loaded
       request.env[@key].delete(:rack_session_access_force_load_session)
 
+      # session hash object
+      session_hash = request.env[@key].to_hash
+
       case File.extname(request.path)
       when ".raw"
         render do |xml|
           xml.h2 "Raw rack session data"
-          xml.pre RackSessionAccess.encode(request.env[@key].to_hash)
+          xml.pre RackSessionAccess.encode(session_hash)
         end
       else
         render do |xml|
           xml.h2 "Rack session data"
           xml.ul do |xml|
-            session = request.env[@key]
-            if session.respond_to?(:to_hash)
-              # session is ActionDispatch::Request::Session
-              session = session.to_hash
-            end
-            session.each do |k,v|
+            session_hash.each do |k,v|
               xml.li("#{k.inspect} : #{v.inspect}")
             end
           end

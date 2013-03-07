@@ -123,6 +123,11 @@ Enjoy!
     BUNDLE_GEMFILE=Gemfile.rails4 bundle install
     BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
 
+## License
+
+* Copyright (c) 2013 Railsware [www.railsware.com](http://www.railsware.com)
+* [MIT](www.opensource.org/licenses/MIT)
+
 
 ## References
 

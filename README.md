@@ -18,7 +18,7 @@ If you use rack based framework this gem does it!
 
     gem install rack_session_access
 
-## Using with Rails3
+## Using with Rails 3 or 4
 
 Add to `Gemfile`:
 
@@ -122,6 +122,10 @@ Enjoy!
 
     BUNDLE_GEMFILE=Gemfile.rails4 bundle install
     BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
+
+## Author
+
+[Andriy Yanko](http://ayanko.github.com/)
 
 ## License
 

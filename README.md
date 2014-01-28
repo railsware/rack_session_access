@@ -27,7 +27,7 @@ Add to `Gemfile`:
 Add RackSessionAccess middleware to rails middleware stack.
 Add the following in`config/environments/test.rb`:
 
-    [MyRailsApp]::Application.configure do
+    [MyRailsApp]::Application.configure do |config|
       ...
       # Access to rack session
       config.middleware.use RackSessionAccess::Middleware
@@ -51,8 +51,8 @@ Add to your sinatra application:
 If you use rspec you may prefer to inject middleware only for rspec tests:
 Put into `spec/spec_helper`:
 
-      MySinatraApplication.configure do
-        use RackSessionAccess::Middleware
+      MySinatraApplication.configure do |app|
+        app.use RackSessionAccess::Middleware
       end
 
 ## Using with Rack builder

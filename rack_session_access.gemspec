@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["andriy.yanko@gmail.com"]
   s.homepage    = "https://github.com/railsware/rack_session_access"
   s.summary     = %q{Rack middleware that provides access to rack.session environment}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "rack_session_access"
 

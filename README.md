@@ -16,23 +16,29 @@ If you use rack based framework this gem does it!
 
 ## Installation
 
-    gem install rack_session_access
+```ruby
+gem install rack_session_access
+```
 
 ## Using with Rails 3 or 4
 
 Add to `Gemfile`:
 
-    gem 'rack_session_access'
+```ruby
+gem 'rack_session_access'
+```
 
 Add RackSessionAccess middleware to rails middleware stack.
 Add the following in`config/environments/test.rb`:
 
-    [MyRailsApp]::Application.configure do |config|
-      ...
-      # Access to rack session
-      config.middleware.use RackSessionAccess::Middleware
-      ...
-    end
+```ruby
+[MyRailsApp]::Application.configure do |config|
+  ...
+  # Access to rack session
+  config.middleware.use RackSessionAccess::Middleware
+  ...
+end
+```
 
 *Note* Ensure you include rack_session_access middleware only for *test* environment
 otherwise you will have security issue.
@@ -42,33 +48,41 @@ otherwise you will have security issue.
 
 Add to your sinatra application:
 
-    class MySinatraApplication < Sinatra::Base
-      enable :sessions
-      use RackSessionAccess if environment == :test
-      ...
-    end
+```ruby
+class MySinatraApplication < Sinatra::Base
+  enable :sessions
+  use RackSessionAccess if environment == :test
+  ...
+end
+```
 
 If you use rspec you may prefer to inject middleware only for rspec tests:
 Put into `spec/spec_helper`:
 
-      MySinatraApplication.configure do |app|
-        app.use RackSessionAccess::Middleware
-      end
+```ruby
+MySinatraApplication.configure do |app|
+  app.use RackSessionAccess::Middleware
+end
+```
 
 ## Using with Rack builder
 
-    Rack::Builder.new do
-      ...
-      use Rack::Session::Cookie
-      use RackSessionAccess::Middleware
-      use MyRackApplication
-    end.to_app
+```ruby
+Rack::Builder.new do
+  ...
+  use Rack::Session::Cookie
+  use RackSessionAccess::Middleware
+  use MyRackApplication
+end.to_app
+```
 
 ## Testing with Capybara
 
 Add to `spec/spec_helper.rb`
 
-    require "rack_session_access/capybara"
+```ruby
+require "rack_session_access/capybara"
+```
 
 Use:
 
@@ -78,32 +92,38 @@ Use:
 
 Example:
 
-    require 'spec_helper'
+```ruby
+require 'spec_helper'
 
-    feature "My feature" do
-      background do
-        @user = Factory(:user, :email => 'jack@daniels.com')
-      end
+feature "My feature" do
+  background do
+    @user = Factory(:user, :email => 'jack@daniels.com')
+  end
 
-      scenario "logged in user access profile page" do
-        page.set_rack_session(:user_id => user.id)
-        page.visit "/profile"
-        page.should have_content("Hi, jack@daniels.com")
-      end
+  scenario "logged in user access profile page" do
+    page.set_rack_session(:user_id => user.id)
+    page.visit "/profile"
+    page.should have_content("Hi, jack@daniels.com")
+  end
 
-      scenario "visit landing page" do
-        page.visit "/landing?ref=123"
-        page.get_rack_session_key('ref').should == "123"
-      end
-    end
+  scenario "visit landing page" do
+    page.visit "/landing?ref=123"
+    page.get_rack_session_key('ref').should == "123"
+  end
+end
+```
 
 ## Authlogic integration
 
-    page.set_rack_session("user_credentials" => @user.persistence_token)
+```ruby
+page.set_rack_session("user_credentials" => @user.persistence_token)
+```
 
 ## Devise integration
 
-    page.set_rack_session("warden.user.user.key" => User.serialize_into_session(@user).unshift("User"))
+```ruby
+page.set_rack_session("warden.user.user.key" => User.serialize_into_session(@user).unshift("User"))
+```
 
 ## Notes
 
@@ -115,13 +135,17 @@ Enjoy!
 
 ### Against Rails3, Sinatra, rack applications
 
-    BUNDLE_GEMFILE=Gemfile bundle install
-    BUNDLE_GEMFILE=Gemfile bundle exec rspec -fs -c spec/
+```sh
+BUNDLE_GEMFILE=Gemfile bundle install
+BUNDLE_GEMFILE=Gemfile bundle exec rspec -fs -c spec/
+```
 
 ### Against Rails4, Sinatra, rack applications
 
-    BUNDLE_GEMFILE=Gemfile.rails4 bundle install
-    BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
+```sh
+BUNDLE_GEMFILE=Gemfile.rails4 bundle install
+BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
+```
 
 ## Author
 

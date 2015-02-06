@@ -4,7 +4,7 @@ gemspec
 
 gem 'rspec', '2.12.0'
 gem 'capybara', '1.1.4'
-gem 'selenium-webdriver', '2.31.0'
+gem 'selenium-webdriver', '2.44.0'
 
 gem 'rack'
 gem 'sinatra', '1.3.4'

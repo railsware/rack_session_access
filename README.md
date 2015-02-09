@@ -20,7 +20,7 @@ If you use rack based framework this gem does it!
 gem install rack_session_access
 ```
 
-## Using with Rails 3 or 4
+## Using with Rails
 
 Add to `Gemfile`:
 
@@ -97,11 +97,11 @@ require 'spec_helper'
 
 feature "My feature" do
   background do
-    @user = Factory(:user, :email => 'jack@daniels.com')
+    @user = Factory(:user, email: 'jack@daniels.com')
   end
 
   scenario "logged in user access profile page" do
-    page.set_rack_session(:user_id => user.id)
+    page.set_rack_session(user_id: user.id)
     page.visit "/profile"
     page.should have_content("Hi, jack@daniels.com")
   end
@@ -133,18 +133,19 @@ Enjoy!
 
 ## Running rack_session_access tests
 
-### Against Rails3, Sinatra, rack applications
-
-```sh
-BUNDLE_GEMFILE=Gemfile bundle install
-BUNDLE_GEMFILE=Gemfile bundle exec rspec -fs -c spec/
-```
 
 ### Against Rails4, Sinatra, rack applications
 
 ```sh
-BUNDLE_GEMFILE=Gemfile.rails4 bundle install
-BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
+bundle install
+bundle exec rspec -fd spec/
+```
+
+### Against Rails3, Sinatra, rack applications
+
+```sh
+BUNDLE_GEMFILE=Gemfile.rails3 bundle install
+BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rspec -fd spec/
 ```
 
 ## Author
@@ -153,7 +154,7 @@ BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fs -c spec/
 
 ## License
 
-* Copyright (c) 2013 Railsware [www.railsware.com](http://www.railsware.com)
+* Copyright (c) 2015 Railsware [www.railsware.com](http://www.railsware.com)
 * [MIT](www.opensource.org/licenses/MIT)
 
 

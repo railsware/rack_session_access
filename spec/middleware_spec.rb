@@ -79,6 +79,48 @@ shared_examples "common scenarios" do
   end
 end
 
+shared_examples "full url scenarios" do
+  let(:host) { "http://another.example.com" }
+  let(:data) do
+    {
+      'user_email'   => 'jack@daniels.com',
+      'user_profile' => { :age => 12 },
+      'role_ids'     => [1, 20, 30]
+    }
+  end
+  
+  scenario "changing session data on a full url visit" do
+    page.visit(host + RackSessionAccess.edit_path)
+    page.should have_content("Update rack session")
+
+    page.fill_in "data", :with => RackSessionAccess.encode({'user_id' => 1})
+    page.click_button "Update"
+    page.should have_content("Rack session data")
+    page.should have_content('"user_id" : 1')
+    page.current_path.should == RackSessionAccess.path
+  end
+
+  scenario "modify session data for a host with set_rack_session helper" do
+    page.set_rack_session(data, host)
+
+    page.visit(host + RackSessionAccess.path)
+    page.should have_content('"user_email" : "jack@daniels.com"')
+    page.should have_content('"user_profile" : {:age=>12}')
+    page.should have_content('"role_ids" : [1, 20, 30]')
+  end
+
+  scenario "modify session data after a full url visit with set_rack_session helper" do
+    page.visit(host + RackSessionAccess.path)
+
+    page.set_rack_session(data)
+
+    page.visit(host + RackSessionAccess.path)
+    page.should have_content('"user_email" : "jack@daniels.com"')
+    page.should have_content('"user_profile" : {:age=>12}')
+    page.should have_content('"role_ids" : [1, 20, 30]')
+  end
+end
+
 shared_examples "rack scenarios" do
   scenario "accessing application" do
     page.visit "/welcome"
@@ -136,18 +178,21 @@ feature "manage rack session", %q(
     context "rack application" do
       background { Capybara.app = TestRackApp }
       include_examples "common scenarios"
+      include_examples "full url scenarios"
       include_examples "rack scenarios"
     end
 
     context "sinatra application" do
       background { Capybara.app = TestSinatraApp }
       include_examples "common scenarios"
+      include_examples "full url scenarios"
       include_examples "sinatra scenarios"
     end
 
     context "rails application" do
       background { Capybara.app = TestRailsApp::Application }
       include_examples "common scenarios"
+      include_examples "full url scenarios"
       include_examples "rails scenarios"
     end
   end

@@ -1,9 +1,15 @@
+require 'uri'
+
 module RackSessionAccess
   module Capybara
-    def set_rack_session(hash)
+    def set_rack_session(hash, host_with_port=nil)
       data = ::RackSessionAccess.encode(hash)
+      unless host_with_port
+        uri = URI.parse(self.current_url)
+        host_with_port = uri.host ? "#{uri.scheme}://#{uri.host}:#{uri.port}" : ""
+      end
 
-      visit ::RackSessionAccess.edit_path
+      visit host_with_port + ::RackSessionAccess.edit_path
       has_content?("Update rack session")
       fill_in "data", :with => data
       click_button "Update"

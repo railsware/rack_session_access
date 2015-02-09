@@ -4,14 +4,14 @@ RackSessionAccess provides rack middleware for 'rack.session' environment manage
 
 ## Problem
 
-Acceptance testing assumes that you can't directly access application session.
-For example if you use capybara with selenium webdriver you can't change some session value
-because your test use browser that access application via backend server.
+Acceptance testing assumes that you can't directly access an applications session.
+For example, if you use capybara with selenium webdriver you can't change some session values
+because your tests use the same browser that accesses the application(via the backend server).
 
 ## Solution
 
-But if you still want to change session values?
-Possible solution is inject into application some code that will manage session.
+But what if you still want to change session values?
+One possible solution is to inject into the application some code that will manage the session independently.
 If you use rack based framework this gem does it!
 
 ## Installation

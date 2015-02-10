@@ -21,8 +21,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "rack",    ">=1.0.0"
   s.add_runtime_dependency "builder", ">=2.0.0"
 
-  s.add_development_dependency 'rspec', '2.12.0'
-  s.add_development_dependency 'capybara', '1.1.4'
+  s.add_development_dependency 'rspec', '~>3.2.0'
+  s.add_development_dependency 'capybara', '~>2.3.0'
   s.add_development_dependency 'selenium-webdriver', '2.44.0'
   s.add_development_dependency 'sinatra', '1.3.4'
   s.add_development_dependency 'rails', '>=3.0.0'

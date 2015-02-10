@@ -10,54 +10,54 @@ shared_examples "common scenarios" do
   end
 
   scenario "changing session data" do
-    page.visit RackSessionAccess.edit_path
-    page.should have_content("Update rack session")
+    visit RackSessionAccess.edit_path
+    expect(page).to have_content("Update rack session")
 
-    page.fill_in "data", :with => RackSessionAccess.encode({'user_id' => 1})
-    page.click_button "Update"
-    page.should have_content("Rack session data")
-    page.should have_content('"user_id" : 1')
-    page.current_path.should == RackSessionAccess.path
+    fill_in "data", with: RackSessionAccess.encode({'user_id' => 1})
+    click_button "Update"
+    expect(page).to have_content("Rack session data")
+    expect(page).to have_content('"user_id" : 1')
+    expect(page.current_path).to eq(RackSessionAccess.path)
   end
 
   scenario "providing no session data" do
-    page.visit RackSessionAccess.edit_path
-    page.should have_content("Update rack session")
+    visit RackSessionAccess.edit_path
+    expect(page).to have_content("Update rack session")
 
-    page.click_button "Update"
-    page.should have_content("Bad data")
-    page.current_path.should == RackSessionAccess.path
+    click_button "Update"
+    expect(page).to have_content("Bad data")
+    expect(page.current_path).to eq(RackSessionAccess.path)
   end
 
   scenario "providing bad data" do
-    page.visit RackSessionAccess.edit_path
-    page.should have_content("Update rack session")
+    visit RackSessionAccess.edit_path
+    expect(page).to have_content("Update rack session")
 
-    page.fill_in "data", :with => "qwertyuiop"
-    page.click_button "Update"
-    page.should have_content("Bad data")
-    page.current_path.should == RackSessionAccess.path
+    fill_in "data", :with => "qwertyuiop"
+    click_button "Update"
+    expect(page).to have_content("Bad data")
+    expect(page.current_path).to eq(RackSessionAccess.path)
   end
 
   scenario "modify session data with set_rack_session helper" do
     page.set_rack_session(data)
 
-    page.visit(RackSessionAccess.path)
-    page.should have_content('"user_email" : "jack@daniels.com"')
-    page.should have_content('"user_profile" : {:age=>12}')
-    page.should have_content('"role_ids" : [1, 20, 30]')
+    visit(RackSessionAccess.path)
+    expect(page).to have_content('"user_email" : "jack@daniels.com"')
+    expect(page).to have_content('"user_profile" : {:age=>12}')
+    expect(page).to have_content('"role_ids" : [1, 20, 30]')
   end
 
   scenario "accessing raw session data" do
     page.set_rack_session(data)
 
-    page.visit(RackSessionAccess.path + '.raw')
-    raw_data = page.find(:xpath, "//body/pre").text
-    raw_data.should be_present
+    visit(RackSessionAccess.path + '.raw')
+    raw_data = find(:xpath, "//body/pre").text
+    expect(raw_data).to be_present
     actual_data = RackSessionAccess.decode(raw_data)
-    actual_data.should be_kind_of(Hash)
+    expect(actual_data).to be_kind_of(Hash)
     data.each do |key, value|
-      actual_data[key].should == value
+      expect(actual_data[key]).to eq(value)
     end
   end
 
@@ -66,63 +66,63 @@ shared_examples "common scenarios" do
 
     actual_data = page.get_rack_session
 
-    actual_data.should be_kind_of(Hash)
+    expect(actual_data).to be_kind_of(Hash)
     data.each do |key, value|
-      actual_data[key].should == value
+      expect(actual_data[key]).to eq(value)
     end
   end
 
   scenario "accessing raw session data using get_rack_session_key helper" do
     page.set_rack_session(data)
 
-    page.get_rack_session_key('role_ids').should == [1, 20, 30]
+    expect(page.get_rack_session_key('role_ids')).to eq([1, 20, 30])
   end
 end
 
-shared_examples "rack scenarios" do
+shared_context "rack scenarios" do
   scenario "accessing application" do
-    page.visit "/welcome"
-    page.text.should == "DUMMY"
+    visit "/welcome"
+    expect(page.text).to eq("DUMMY")
   end
 end
 
-shared_examples "sinatra scenarios" do
+shared_context "sinatra scenarios" do
   scenario "test application itself" do
-    page.visit "/login"
-    page.should have_content("Please log in")
+    visit "/login"
+    expect(page).to have_content("Please log in")
 
-    page.visit "/profile"
-    page.should have_content("Please log in")
+    visit "/profile"
+    expect(page).to have_content("Please log in")
   end
 
   scenario "accessing application" do
-    page.visit "/profile"
-    page.text.should == "Please log in"
+    visit "/profile"
+    expect(page.text).to eq("Please log in")
 
-    page.set_rack_session({:user_email => "jack@daniels.com"})
+    page.set_rack_session(user_email: "jack@daniels.com")
 
-    page.visit "/profile"
-    page.text.should == "Welcome, jack@daniels.com!"
+    visit "/profile"
+    expect(page.text).to eq("Welcome, jack@daniels.com!")
   end
 end
 
-shared_examples "rails scenarios" do
+shared_context "rails scenarios" do
   scenario "test application itself" do
-    page.visit "/login"
-    page.should have_content("Please log in")
+    visit "/login"
+    expect(page).to have_content("Please log in")
 
-    page.visit "/profile"
-    page.should have_content("Please log in")
+    visit "/profile"
+    expect(page).to have_content("Please log in")
   end
 
   scenario "accessing application" do
-    page.visit "/profile"
-    page.text.should == "Please log in"
+    visit "/profile"
+    expect(page.text).to eq("Please log in")
 
-    page.set_rack_session({:user_email => "jack@daniels.com"})
+    page.set_rack_session(user_email: "jack@daniels.com")
 
-    page.visit "/profile"
-    page.text.should == "Welcome, jack@daniels.com!"
+    visit "/profile"
+    expect(page.text).to eq("Welcome, jack@daniels.com!")
   end
 end
 
@@ -132,11 +132,11 @@ feature "manage rack session", %q(
   So I can write faster tests
 ) do
 
-  context ":rack_test driver", :driver => :rack_test do
+  context ":rack_test driver", driver: :rack_test do
     context "rack application" do
       background { Capybara.app = TestRackApp }
       include_examples "common scenarios"
-      include_examples "rack scenarios"
+      #include_examples "rack scenarios"
     end
 
     context "sinatra application" do
@@ -152,9 +152,7 @@ feature "manage rack session", %q(
     end
   end
 
-
-
-  context ":selenium driver", :driver => :selenium do
+  context ":selenium driver", driver: :selenium do
     context "rack application" do
       background { Capybara.app = TestRackApp }
       include_examples "common scenarios"

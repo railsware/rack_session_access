@@ -96,33 +96,64 @@ Example:
 require 'spec_helper'
 
 feature "My feature" do
-  background do
-    @user = Factory(:user, email: 'jack@daniels.com')
-  end
+  given!(:user) { create(:user, email: 'jack@daniels.com') }
 
   scenario "logged in user access profile page" do
     page.set_rack_session(user_id: user.id)
-    page.visit "/profile"
-    page.should have_content("Hi, jack@daniels.com")
+    visit "/profile"
+    expect(page).to have_content("Hi, jack@daniels.com")
   end
 
   scenario "visit landing page" do
-    page.visit "/landing?ref=123"
-    page.get_rack_session_key('ref').should == "123"
+    visit "/landing?ref=123"
+    expect(page.get_rack_session_key('ref')).to eq("123")
   end
 end
 ```
 
-## Authlogic integration
+### Authlogic integration
 
 ```ruby
-page.set_rack_session("user_credentials" => @user.persistence_token)
+module FeatureHelpers
+  def logged_as(user)
+    page.set_rack_session('user_credentials' => user.persistence_token)
+  end
+end
 ```
 
-## Devise integration
+### Devise integration
 
 ```ruby
-page.set_rack_session("warden.user.user.key" => User.serialize_into_session(@user).unshift("User"))
+module FeatureHelpers
+  def logged_as(user)
+    page.set_rack_session('warden.user.user.key' => User.serialize_into_session(user).unshift("User"))
+  end
+end
+```
+
+## Authentication helper
+
+Put corresponding implementation of `logged_as` in `spec/support/feature_helpers.rb` and include module into rspec config:
+
+```ruby
+RSpec.configure do |config|
+  ...
+  config.include FeatureHelpers, type: :feature
+  ...
+end
+```
+Start your scenarios with already logged in user:
+
+```ruby
+feature 'User dashboard', type: :feature do
+  given(:user) { create(:user) }
+  background do
+    logged_as user
+  end
+  scenario 'User reviews a dashboard' do
+    ...
+  end
+end
 ```
 
 ## Notes

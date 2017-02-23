@@ -14,7 +14,7 @@ module RackSessionAccess
       visit ::RackSessionAccess.path + '.raw'
       has_content?("Raw rack session data")
       raw_data = find(:xpath, '//body/pre').text
-      ::RackSessionAccess.decode(raw_data)
+      ::RackSessionAccess.decode(raw_data).with_indifferent_access
     end
 
     def get_rack_session_key(key)

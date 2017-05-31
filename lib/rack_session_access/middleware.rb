@@ -53,13 +53,13 @@ module RackSessionAccess
       else
         render do |xml|
           xml.h2 "Rack session data"
-          xml.ul do |xml|
+          xml.ul do |ul|
             session_hash.each do |k,v|
-              xml.li("#{k.inspect} : #{v.inspect}")
+              ul.li("#{k.inspect} : #{v.inspect}")
             end
           end
-          xml.p do |xml|
-            xml.a("Edit", :href => action_path(:edit))
+          xml.p do |p|
+            p.a("Edit", :href => action_path(:edit))
           end
         end
       end
@@ -74,11 +74,11 @@ module RackSessionAccess
           :action  => action_path(:update),
           :method  => 'post',
           :enctype => 'application/x-www-form-urlencoded'
-        }) do |xml|
-          xml.input(:type => 'hidden', :name =>'_method', :value => 'put')
-          xml.textarea(:cols => 40, :rows => 10, :name => 'data') {}
-          xml.p do |xml|
-            xml.input(:type => 'submit', :value => "Update")
+        }) do |form|
+          form.input(:type => 'hidden', :name =>'_method', :value => 'put')
+          form.textarea(:cols => 40, :rows => 10, :name => 'data') {}
+          form.p do |p|
+            p.input(:type => 'submit', :value => "Update")
           end
         end
       end
@@ -135,8 +135,8 @@ module RackSessionAccess
       builder = Builder::XmlMarkup.new(:indent => 2)
 
       builder.html do |xml|
-        xml.body do |xml|
-          yield xml
+        xml.body do |body|
+          yield body
         end
       end
 

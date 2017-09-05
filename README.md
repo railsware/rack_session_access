@@ -88,7 +88,7 @@ Use:
 
 * `page.set_rack_session` to set your desired session data
 * `page.get_rack_session` to obtain your application session data
-* `page.get_rack_session_key` to obtain certain key if your application session data
+* `page.get_rack_session_key` to obtain certain key of your application session data
 
 Example:
 

@@ -169,14 +169,7 @@ Enjoy!
 ## Running rack_session_access tests
 
 
-### Against Rails4, Sinatra, rack applications
-
-```sh
-bundle install
-bundle exec rspec -fd spec/
-```
-
-### Against Rails3, Sinatra, rack applications
+Run to test against Rails4, Sinatra and Rack applications
 
 ```sh
 BUNDLE_GEMFILE=Gemfile.rails4 bundle install

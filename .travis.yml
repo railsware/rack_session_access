@@ -2,7 +2,9 @@ sudo: false
 language: ruby
 rvm:
   - 2.4.1
-before_install: gem install bundler -v 1.16.1
 gemfile:
   - Gemfile.rails4
   - Gemfile.rails5
+cache: bundler
+script:
+  - bundle exec rspec

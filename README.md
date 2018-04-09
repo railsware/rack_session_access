@@ -1,4 +1,4 @@
-# rack_session_access
+# Rack Session Access [![Build Status](https://travis-ci.org/railsware/rack_session_access.svg?branch=master)](https://travis-ci.org/railsware/rack_session_access)
 
 RackSessionAccess provides rack middleware for 'rack.session' environment management.
 

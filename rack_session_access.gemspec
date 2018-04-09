@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '~>3.7.0'
   s.add_development_dependency 'capybara', '~>3.0.1'
+  s.add_development_dependency 'chromedriver-helper'
   s.add_development_dependency 'selenium-webdriver', '~>3.11.0'
   s.add_development_dependency 'rails', '>=4.0.0'
 end

@@ -1,14 +1,6 @@
 require 'spec_helper'
 
 shared_examples "common scenarios" do
-  let(:data) do
-    {
-      'user_email'   => 'jack@daniels.com',
-      'user_profile' => { :age => 12 },
-      'role_ids'     => [1, 20, 30]
-    }
-  end
-
   scenario "changing session data" do
     visit RackSessionAccess.edit_path
     expect(page).to have_content("Update rack session")
@@ -79,14 +71,14 @@ shared_examples "common scenarios" do
   end
 end
 
-shared_context "rack scenarios" do
+shared_examples "rack scenarios" do
   scenario "accessing application" do
     visit "/welcome"
     expect(page.text).to eq("DUMMY")
   end
 end
 
-shared_context "sinatra scenarios" do
+shared_examples "sinatra scenarios" do
   scenario "test application itself" do
     visit "/login"
     expect(page).to have_content("Please log in")
@@ -106,7 +98,7 @@ shared_context "sinatra scenarios" do
   end
 end
 
-shared_context "rails scenarios" do
+shared_examples "rails scenarios" do
   scenario "test application itself" do
     visit "/login"
     expect(page).to have_content("Please log in")
@@ -131,6 +123,14 @@ feature "manage rack session", %q(
   I want to have ability to modify rack session
   So I can write faster tests
 ) do
+
+  let(:data) do
+    {
+      'user_email' => 'jack@daniels.com',
+      'user_profile' => {age: 12},
+      'role_ids' => [1, 20, 30]
+    }
+  end
 
   context ":rack_test driver", driver: :rack_test do
     context "rack application" do

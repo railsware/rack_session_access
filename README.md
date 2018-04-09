@@ -179,8 +179,13 @@ bundle exec rspec -fd spec/
 ### Against Rails3, Sinatra, rack applications
 
 ```sh
-BUNDLE_GEMFILE=Gemfile.rails3 bundle install
-BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rspec -fd spec/
+BUNDLE_GEMFILE=Gemfile.rails4 bundle install
+BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rspec -fd spec/
+```
+
+```sh
+BUNDLE_GEMFILE=Gemfile.rails5 bundle install
+BUNDLE_GEMFILE=Gemfile.rails5 bundle exec rspec -fd spec/
 ```
 
 ## Author

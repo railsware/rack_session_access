@@ -18,12 +18,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "rack",    ">=1.0.0"
+  s.add_runtime_dependency "rack", ">=1.0.0"
   s.add_runtime_dependency "builder", ">=2.0.0"
 
-  s.add_development_dependency 'rspec', '~>3.2.0'
-  s.add_development_dependency 'capybara', '~>2.3.0'
-  s.add_development_dependency 'selenium-webdriver', '2.44.0'
-  s.add_development_dependency 'sinatra', '1.3.4'
-  s.add_development_dependency 'rails', '>=3.0.0'
+  s.add_development_dependency 'rspec', '~>3.7.0'
+  s.add_development_dependency 'capybara', '~>3.0.1'
+  s.add_development_dependency 'selenium-webdriver', '~>3.11.0'
+  s.add_development_dependency 'rails', '>=4.0.0'
 end

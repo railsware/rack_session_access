@@ -130,7 +130,7 @@ module FeatureHelpers
     page.set_rack_session('warden.user.user.key' => User.serialize_into_session(user).unshift('User'))
 
     # Devise v4.x.x
-    page.set_rack_session('warden.user.user.key' => User.serialize_into_session(user)
+    page.set_rack_session('warden.user.user.key' => User.serialize_into_session(user))
   end
 end
 ```

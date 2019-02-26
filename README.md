@@ -51,7 +51,7 @@ Add to your sinatra application:
 ```ruby
 class MySinatraApplication < Sinatra::Base
   enable :sessions
-  use RackSessionAccess if environment == :test
+  use RackSessionAccess::Middleware if environment == :test
   ...
 end
 ```

@@ -1,0 +1,6 @@
+source "http://rubygems.org"
+
+gemspec
+
+gem 'rails', '6.0.0'
+gem 'sinatra', '2.0.7'

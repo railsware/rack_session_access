@@ -2,6 +2,8 @@ require 'action_controller/railtie'
 
 module TestRailsApp
   class Application < Rails::Application
+    config.hosts.clear if Rails::VERSION::MAJOR >= 6
+
     config.secret_token = '572c86f5ede338bd8aba8dae0fd3a326aabababc98d1e6ce34b9f5'
 
     config.secret_key_base = '6dfb795086781f017c63cadcd2653fac40967ac60f621e6299a0d6d811417156d81efcdf1d234c'

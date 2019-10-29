@@ -7,6 +7,7 @@ rvm:
 gemfile:
   - Gemfile.rails4
   - Gemfile.rails5
+  - Gemfile.rails6
 cache: bundler
 script:
   - "export DISPLAY=:99.0"

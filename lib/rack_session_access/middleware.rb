@@ -111,6 +111,7 @@ module RackSessionAccess
 
     # Return HTTP method, detect emulated method with _method param
     def request_method(request)
+      return 'GET'                            if request.head?
       return request.request_method           if request.request_method != 'POST'
       return request.params['_method'].upcase if request.params['_method']
       request.request_method

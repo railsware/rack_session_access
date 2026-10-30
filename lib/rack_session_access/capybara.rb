@@ -7,7 +7,7 @@ module RackSessionAccess
       has_content?("Update rack session")
       fill_in "data", :with => data
       click_button "Update"
-      has_content?("Rack session data")
+      has_selector?(:xpath, '//h2[normalize-space()="Rack session data"]')
     end
 
     def get_rack_session
